@@ -6,6 +6,7 @@ image::https://github.com/fiddlededee/asciidoc-i18n/workflows/build/badge.svg[li
 * https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc.html[GithubIO]
 * https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc.pdf[pdf]
 * https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc.odt[odt]
+* https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc.docx[docx]
 * https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc.md[Habr markdown]
 
 == [ru] Интернационализация (i18n) простой текстовой разметки: Подход с использованием `gettext`
@@ -14,4 +15,5 @@ image::https://github.com/fiddlededee/asciidoc-i18n/workflows/build/badge.svg[li
 * https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc-ru.html[GithubIO]
 * https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc-ru.pdf[pdf]
 * https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc-ru.odt[odt]
+* https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc-ru.docx[docx]
 * https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc-ru.md[Habr markdown]
