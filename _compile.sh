@@ -5,12 +5,12 @@ cd src
 txt2po -P i18n-adoc.adoc i18n-adoc.pot
 msgmerge -U i18n-adoc-ru.po i18n-adoc.pot
 
-cd "$(dirname "$0")"
+cd ..
 rm target -rf
 mkdir target
-cp src/. target -rf
+cp src/* target -rf
+cp src/.vale.ini target -f
 
-cd "$(dirname "$0")"
 cd target
 msgfmt --statistics i18n-adoc-ru.po |& grep 'fuzzy\|untranslated' | tee -a log.txt
 docker run -v $(pwd):/docs --rm -w /docs jdkato/vale i18n-adoc.adoc | grep '[1-9][0-9]* error\|[1-9][0-9]* warning' |  tee -a log.txt
