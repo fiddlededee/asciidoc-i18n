@@ -1,0 +1,17 @@
+image::https://github.com/fiddlededee/asciidoc-i18n/workflows/build/badge.svg[link=https://github.com/fiddlededee/asciidoc-i18n/actions?query=workflow%3A"build"]
+
+== [en] Simple text markup internationalization (i18n): Gettext approach
+
+* https://habr.com/ru/post/599437/[Published article]
+* https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc.html[GithubIO]
+* https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc.pdf[pdf]
+* https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc.odt[odt]
+* https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc.md[Habr markdown]
+
+== [ru] Интернационализация (i18n) простой текстовой разметки: Подход с использованием `gettext`
+
+* https://habr.com/ru/post/599775/[Published article]
+* https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc-ru.html[GithubIO]
+* https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc-ru.pdf[pdf]
+* https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc-ru.odt[odt]
+* https://fiddlededee.github.io/asciidoc-i18n/i18n-adoc-ru.md[Habr markdown]
