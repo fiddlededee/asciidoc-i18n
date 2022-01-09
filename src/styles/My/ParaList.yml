@@ -1,0 +1,7 @@
+extends: existence
+message: "Looks like new line after paragraph before unordered list needed '%s'."
+scope: paragraph
+ignorecase: true
+level: warning
+raw:
+  - '^.*\n[\*].*$'

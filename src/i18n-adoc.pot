@@ -1,0 +1,388 @@
+#. extracted from i18n-adoc.adoc
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-01-09 22:23+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 2.5.0\n"
+
+#: i18n-adoc.adoc:7
+msgid ""
+"= Simple text markup internationalization (i18n): Gettext approach\n"
+"Nikolaj Potashnikov\n"
+"1.0, 2021-11-18\n"
+":lang: en\n"
+":toc:\n"
+":toc-title: Table of contents"
+msgstr ""
+
+#: i18n-adoc.adoc:14
+msgid ""
+"ifdef::backend-html5,backend-fodt[]\n"
+"image::first.jpg[width=100%]\n"
+"endif::[]\n"
+"ifdef::backend-docbook5[]\n"
+"image::https://habrastorage.org/webt/xr/jz/pb/"
+"xrjzpblczowgylzxmvefrjjt4og.jpeg[width=100%]\n"
+"endif::[]"
+msgstr ""
+
+#: i18n-adoc.adoc:16
+msgid "== Introduction"
+msgstr ""
+
+#: i18n-adoc.adoc:18
+msgid "https://habr.com/ru/post/599775/[Перейти к русской версии]"
+msgstr ""
+
+#: i18n-adoc.adoc:20
+msgid ""
+"Several years ago my colleague posted an https://habr.com/ru/post/456032/"
+"[article] about making presentations in https://asciidoctor.org/[Asciidoctor]"
+". Since then, we don't use any other approach."
+msgstr ""
+
+#: i18n-adoc.adoc:22
+msgid ""
+"Some time ago there have appeared a problem of translating presentations "
+"into several languages and have them synchronized. The solution appeared to "
+"be so simple and mature that I decided to describe it in this post."
+msgstr ""
+
+#: i18n-adoc.adoc:24
+msgid ""
+"This solution is syntax-unaware. This means, it doesn't matter whether we "
+"use Asciidoc, other light text markup or even mixed format (with my "
+"favourite Plantuml or any other diagrams, for example). The serious "
+"limitations of this approach are (1) the translator shouldn't break markup "
+"structure and (2) we can't directly apply machine translation to the "
+"original text (except for paragraphs)."
+msgstr ""
+
+#: i18n-adoc.adoc:26
+msgid ""
+"The solution uses http://docs.translatehouse.org/projects/translate-toolkit/"
+"en/latest/[Translation Toolkit] and standard https://www.gnu.org/software/"
+"gettext/[GNU Gettext tools]."
+msgstr ""
+
+#: i18n-adoc.adoc:28
+msgid ""
+"To make this solution clear this article has English and Russian versions. "
+"https://github.com/fiddlededee/asciidoc-i18n[Its repository] contains some "
+"simple automation that synchronizes translation, creates printing version ("
+"pdf, docx, odt) and creates Markdown file for publishing to Habr."
+msgstr ""
+
+#: i18n-adoc.adoc:30
+msgid ""
+"In my recent article on testing documentation I didn't pay much attention to "
+"text linters, because the focus was on approaches, not exact tools. Still "
+"these tools are great. To fill the gap I'll use https://github.com/errata-ai/"
+"vale[vale] for this article."
+msgstr ""
+
+#: i18n-adoc.adoc:32
+msgid "== The idea"
+msgstr ""
+
+#: i18n-adoc.adoc:34
+msgid "Gettext assumes that key strings for translation are original messages."
+msgstr ""
+
+#: i18n-adoc.adoc:36
+msgid ""
+"Gettext uses PO files to keep both original and translated messages. A great "
+"number of editors allow to edit such files either in a single user or "
+"collaborative environments."
+msgstr ""
+
+#: i18n-adoc.adoc:38
+msgid ""
+"The idea of Translation Toolkit is to use blocks of adjacent lines as such "
+"strings."
+msgstr ""
+
+#: i18n-adoc.adoc:42
+msgid ""
+"Take this example:\n"
+"----\n"
+".Winter is"
+msgstr ""
+
+#: i18n-adoc.adoc:45
+msgid ""
+"* snow\n"
+"* frost"
+msgstr ""
+
+#: i18n-adoc.adoc:49
+msgid ""
+"* Christmas\n"
+"* New Year\n"
+"----"
+msgstr ""
+
+#: i18n-adoc.adoc:51
+msgid ""
+"It has three block of adjacent string. Translation Toolkit will extract "
+"three key strings for translation."
+msgstr ""
+
+#: i18n-adoc.adoc:53
+msgid ""
+"Putting or removing line breaks you may make any number of strings from 1 to "
+"5. This depends on convenience to the translator."
+msgstr ""
+
+#: i18n-adoc.adoc:55
+msgid "== The Process"
+msgstr ""
+
+#: i18n-adoc.adoc:57
+msgid "The process consists of the following steps."
+msgstr ""
+
+#: i18n-adoc.adoc:60
+msgid ""
+"* Initial steps to get initial translations in one or any languages.\n"
+"* Updating translation steps to synchronize translation with the modified "
+"original text."
+msgstr ""
+
+#: i18n-adoc.adoc:62
+msgid ""
+"The following diagrams assume that the original file is `i18n-adoc.adoc` and "
+"the translation goes to `i18n-adoc-ru.adoc`."
+msgstr ""
+
+#: i18n-adoc.adoc:64
+msgid "=== Initial steps"
+msgstr ""
+
+#: i18n-adoc.adoc:71
+msgid ""
+".Initial steps\n"
+"ifdef::backend-html5,backend-fodt[]\n"
+"[plantuml,initial_steps,fitrect=\"170x250mm\",srcdpi=300, width=80%]\n"
+"....\n"
+"@startuml\n"
+"skinparam dpi 300"
+msgstr ""
+
+#: i18n-adoc.adoc:77
+msgid ""
+":Create PO template\n"
+"====\n"
+"<code>\n"
+"txt2po -P i18n-adoc.adoc i18n-adoc.pot\n"
+"</code>;"
+msgstr ""
+
+#: i18n-adoc.adoc:83
+msgid ""
+":Initialize PO file\n"
+"====\n"
+"<code>\n"
+"msginit --no-translator -l ru_RU -o i18n-adoc-ru.po\n"
+"</code>;"
+msgstr ""
+
+#: i18n-adoc.adoc:87
+msgid ""
+":Make translation\n"
+"====\n"
+"Gtranslator, Poedit etc.;"
+msgstr ""
+
+#: i18n-adoc.adoc:93
+msgctxt "i18n-adoc.adoc:93"
+msgid ""
+":Create (update) the translated file\n"
+"====\n"
+"<code>\n"
+"po2txt -t i18n-adoc.adoc i18n-adoc-ru.po i18n-adoc-ru.adoc\n"
+"</code>;"
+msgstr ""
+
+#: i18n-adoc.adoc:100
+msgid ""
+"@enduml\n"
+"....\n"
+"endif::[]\n"
+"ifdef::backend-docbook5[]\n"
+"image::https://habrastorage.org/webt/5b/no/ku/"
+"5bnokug0vcs5_fj0r3lebyeazf4.png[fitrect=\"170x250mm\",srcdpi=300,width=80%]\n"
+"endif::[]"
+msgstr ""
+
+#: i18n-adoc.adoc:102
+msgid ""
+"There is a vast number of editors for translating PO files. The following "
+"screenshot shows https://wiki.gnome.org/Apps/Gtranslator[Gtranslator] "
+"interface. I prefer https://poedit.net/[Poedit], although the way it "
+"replaces backtick with tick while applying machine translation is annoying."
+msgstr ""
+
+#: i18n-adoc.adoc:110
+msgid ""
+".Translating in Gtranslator\n"
+"ifdef::backend-html5,backend-fodt[]\n"
+"image::1.png[width=100%]\n"
+"endif::[]\n"
+"ifdef::backend-docbook5[]\n"
+"image::https://habrastorage.org/webt/xe/yp/8q/"
+"xeyp8qzjmsdohjrmrccmoojupgo.png[width=100%]\n"
+"endif::[]"
+msgstr ""
+
+#: i18n-adoc.adoc:112
+msgid "=== Updating translation"
+msgstr ""
+
+#: i18n-adoc.adoc:119
+msgid ""
+".Updating translation\n"
+"ifdef::backend-html5,backend-fodt[]\n"
+"[plantuml,updating-translation,fitrect=\"170x250mm\",srcdpi=300,width=80%]\n"
+"....\n"
+"@startuml\n"
+"skinparam dpi 300"
+msgstr ""
+
+#: i18n-adoc.adoc:125
+msgid ""
+":Recreate PO template\n"
+"====\n"
+"<code>\n"
+"txt2po -P i18n-adoc.adoc i18n-adoc.pot\n"
+"</code>;"
+msgstr ""
+
+#: i18n-adoc.adoc:131
+msgid ""
+":Merge PO template with the existing PO file\n"
+"====\n"
+"<code>\n"
+"msgmerge -U i18n-adoc-ru.po i18n-adoc.pot\n"
+"</code>;"
+msgstr ""
+
+#: i18n-adoc.adoc:135
+msgid ""
+":Update translation\n"
+"====\n"
+"Gtranslator, Poedit etc.;"
+msgstr ""
+
+#: i18n-adoc.adoc:141
+msgctxt "i18n-adoc.adoc:141"
+msgid ""
+":Create (update) the translated file\n"
+"====\n"
+"<code>\n"
+"po2txt -t i18n-adoc.adoc i18n-adoc-ru.po i18n-adoc-ru.adoc\n"
+"</code>;"
+msgstr ""
+
+#: i18n-adoc.adoc:148
+msgid ""
+"@enduml\n"
+"....\n"
+"endif::[]\n"
+"ifdef::backend-docbook5[]\n"
+"image::https://habrastorage.org/webt/de/wh/pl/"
+"dewhpl0xe3mf8e_3lcvc9hd19ge.png[fitrect=\"170x250mm\",srcdpi=300]\n"
+"endif::[]"
+msgstr ""
+
+#: i18n-adoc.adoc:150
+msgid "== Some notes"
+msgstr ""
+
+#: i18n-adoc.adoc:153
+msgid ""
+". In our documentation we often reuse source i18n strings just to be sure "
+"that names of interface elements in documentation are equal to the same "
+"names in our application. We generate these i18n strings automatically in "
+"the following format:\n"
+"+"
+msgstr ""
+
+#: i18n-adoc.adoc:160
+msgid ""
+"----\n"
+":main-menu-documents: Documents\n"
+":main-menu-documents-my: My\n"
+"...\n"
+"----\n"
+"+"
+msgstr ""
+
+#: i18n-adoc.adoc:162
+msgid ""
+"We include such a file in the Asciidoc document like `include i17n-\\"
+"{lang}.adoc[]`. Now there is no need to use attributes. Just translate `"
+"include i17n-en.adoc[]` to `include i17n-ru.adoc[]`."
+msgstr ""
+
+#: i18n-adoc.adoc:164
+msgid ""
+". When `gettext` updates PO files it uses fuzzy search. If you slightly "
+"change the original text you won't lose its translation. It will be just "
+"marked as flaky."
+msgstr ""
+
+#: i18n-adoc.adoc:167
+msgid ""
+". It's easy to check whether translation file is up-to-date.\n"
+"+"
+msgstr ""
+
+#: i18n-adoc.adoc:172
+msgid ""
+"----\n"
+"msgfmt --statistics i18n-adoc-ru.po\n"
+"----\n"
+"+"
+msgstr ""
+
+#: i18n-adoc.adoc:174
+msgid ""
+"It shows the number of translated strings, the number of strings that need "
+"checking and the number of untranslated strings."
+msgstr ""
+
+#: i18n-adoc.adoc:176
+msgid "== Conclusion"
+msgstr ""
+
+#: i18n-adoc.adoc:178
+msgid ""
+"* I began to use simple text markup, when faced the task to create a good "
+"deal of professionally formatted documentation. Then, it turned out, "
+"generating documentation in simple text format and keeping it up-to-date is "
+"quite easy. Quality assurance also proved to be easy. Now, we see, making "
+"documentation international is once again efficient."
+msgstr ""
+
+#: i18n-adoc.adoc:180
+msgid ""
+"* Simple text markups are not so simple. To take full advantage of it one "
+"needs a certain level of skills. Try to give translator PO files. Will they "
+"be ready to make a translation? Or they'll ask you for text in a more "
+"traditional format like Microsoft Word."
+msgstr ""
+
+#: i18n-adoc.adoc:181
+msgid ""
+"* Quality control: 50 translated messages, 0 errors, 0 warnings and 0 "
+"suggestions in 1 file."
+msgstr ""
