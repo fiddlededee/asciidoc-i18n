@@ -8,6 +8,8 @@ msgmerge -U i18n-adoc-ru.po i18n-adoc.pot
 cd "$(dirname "$0")"
 rm target -rf
 mkdir target
+pwd
+ls
 cp src/* target -rf
 cp src/.vale.ini target -f
 
