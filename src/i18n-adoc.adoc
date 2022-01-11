@@ -1,6 +1,6 @@
 = Simple text markup internationalization (i18n): Gettext approach
 Nikolaj Potashnikov
-1.0, 2021-11-18
+1.0, 2022-01-11
 :lang: en
 :toc:
 :toc-title: Table of contents
@@ -16,11 +16,11 @@ endif::[]
 
 https://habr.com/ru/post/599775/[Перейти к русской версии]
 
-Several years ago my colleague posted an https://habr.com/ru/post/456032/[article] about making presentations in https://asciidoctor.org/[Asciidoctor]. Since then, we don't use any other approach.
+Several years ago my colleague posted an https://dzone.com/articles/presentation-as-code-why-i-abandoned-powerpoint[article] about making presentations in https://asciidoctor.org/[Asciidoctor]. Since then, we don't use any other approach.
 
 Some time ago there have appeared a problem of translating presentations into several languages and have them synchronized. The solution appeared to be so simple and mature that I decided to describe it in this post.
 
-This solution is syntax-unaware. This means, it doesn't matter whether we use Asciidoc, other light text markup or even mixed format (with my favourite Plantuml or any other diagrams, for example). The serious limitations of this approach are (1) the translator shouldn't break markup structure and (2) we can't directly apply machine translation to the original text (except for paragraphs).
+This solution is syntax-unaware. This means, it doesn't matter whether we use Asciidoc, other light text markup or even mixed format (with my favourite Plantuml or any other diagrams, for example). The serious limitations of this approach are (1) the translator shouldn't break markup structure and (2) we can't directly apply machine translation to the original text.
 
 The solution uses http://docs.translatehouse.org/projects/translate-toolkit/en/latest/[Translation Toolkit] and standard https://www.gnu.org/software/gettext/[GNU Gettext tools].
 
@@ -32,7 +32,7 @@ In my recent article on testing documentation I didn't pay much attention to tex
 
 Gettext assumes that key strings for translation are original messages.
 
-Gettext uses PO files to keep both original and translated messages. A great number of editors allow to edit such files either in a single user or collaborative environments.
+Gettext uses files with `.po` extension (PO -- https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html#PO-Files[Portable Object]) to keep both original and translated messages. A great number of editors allow to edit such files either in a single user or collaborative environments.
 
 The idea of Translation Toolkit is to use blocks of adjacent lines as such strings.
 
@@ -47,15 +47,17 @@ Take this example:
 * New Year
 ----
 
-It has three block of adjacent string. Translation Toolkit will extract three key strings for translation.
+It has three block of adjacent string. Translation Toolkit will extract three key strings for translation and will put it to file with `.pot` extension (`.pot` stands for `.po` Template).
 
-Putting or removing line breaks you may make any number of strings from 1 to 5. This depends on convenience to the translator.
+Putting or removing line breaks in this example you may make any number of strings from 1 to 5. This depends on convenience to the translator.
+
+Using `.pot` file as a template Gettext creates (updates) `.po` files for all required languages. Translators handle exactly these files. After that Translation Toolkit takes (1) `.po` file with translation, (2) the original file and creates a final translated file.
 
 == The Process
 
 The process consists of the following steps.
 
-* Initial steps to get initial translations in one or any languages.
+* Initial steps to get initial translations in one or several languages.
 * Updating translation steps to synchronize translation with the modified original text.
 
 The following diagrams assume that the original file is `i18n-adoc.adoc` and the translation goes to `i18n-adoc-ru.adoc`.
@@ -63,29 +65,30 @@ The following diagrams assume that the original file is `i18n-adoc.adoc` and the
 === Initial steps
 
 .Initial steps
+
 ifdef::backend-html5,backend-fodt[]
 [plantuml,initial_steps,fitrect="170x250mm",srcdpi=300, width=80%]
 ....
 @startuml
 skinparam dpi 300
 
-:Create PO template
+:Create //.po// template with **Translation Toolkit**
 ====
 <code>
 txt2po -P i18n-adoc.adoc i18n-adoc.pot
 </code>;
 
-:Initialize PO file
+:Initialize //.po// file with **Gettext**
 ====
 <code>
 msginit --no-translator -l ru_RU -o i18n-adoc-ru.po
 </code>;
 
-:Make translation
+:Make translation with any //.po// editor
 ====
 Gtranslator, Poedit etc.;
 
-:Create (update) the translated file
+:Create (update) the translated file with **Translation Toolkit**
 ====
 <code>
 po2txt -t i18n-adoc.adoc i18n-adoc-ru.po i18n-adoc-ru.adoc
@@ -94,16 +97,19 @@ po2txt -t i18n-adoc.adoc i18n-adoc-ru.po i18n-adoc-ru.adoc
 @enduml
 ....
 endif::[]
+
 ifdef::backend-docbook5[]
-image::https://habrastorage.org/webt/5b/no/ku/5bnokug0vcs5_fj0r3lebyeazf4.png[fitrect="170x250mm",srcdpi=300,width=80%]
+image::https://habrastorage.org/webt/0u/rs/zp/0urszpwyr0va0baicqejdrhr7vq.png[fitrect="170x250mm",srcdpi=300,width=80%]
 endif::[]
 
-There is a vast number of editors for translating PO files. The following screenshot shows https://wiki.gnome.org/Apps/Gtranslator[Gtranslator] interface. I prefer https://poedit.net/[Poedit], although the way it replaces backtick with tick while applying machine translation is annoying.
+There is a vast number of editors for translating `.po` files. The following screenshot shows https://wiki.gnome.org/Apps/Gtranslator[Gtranslator] interface. I prefer https://poedit.net/[Poedit], although the way it replaces backtick with tick while applying machine translation is annoying.
 
 .Translating in Gtranslator
+
 ifdef::backend-html5,backend-fodt[]
 image::1.png[width=100%]
 endif::[]
+
 ifdef::backend-docbook5[]
 image::https://habrastorage.org/webt/xe/yp/8q/xeyp8qzjmsdohjrmrccmoojupgo.png[width=100%]
 endif::[]
@@ -111,29 +117,30 @@ endif::[]
 === Updating translation
 
 .Updating translation
+
 ifdef::backend-html5,backend-fodt[]
 [plantuml,updating-translation,fitrect="170x250mm",srcdpi=300,width=80%]
 ....
 @startuml
 skinparam dpi 300
 
-:Recreate PO template
+:Recreate //.po// template with **Translation Toolkit**
 ====
 <code>
 txt2po -P i18n-adoc.adoc i18n-adoc.pot
 </code>;
 
-:Merge PO template with the existing PO file
+:Merge //.po// template with the existing //.po// file with **Gettext**
 ====
 <code>
 msgmerge -U i18n-adoc-ru.po i18n-adoc.pot
 </code>;
 
-:Update translation
+:Update translation with any //.po// editor
 ====
 Gtranslator, Poedit etc.;
 
-:Create (update) the translated file
+:Create (update) the translated file with **Translation Toolkit**
 ====
 <code>
 po2txt -t i18n-adoc.adoc i18n-adoc-ru.po i18n-adoc-ru.adoc
@@ -142,8 +149,9 @@ po2txt -t i18n-adoc.adoc i18n-adoc-ru.po i18n-adoc-ru.adoc
 @enduml
 ....
 endif::[]
+
 ifdef::backend-docbook5[]
-image::https://habrastorage.org/webt/de/wh/pl/dewhpl0xe3mf8e_3lcvc9hd19ge.png[fitrect="170x250mm",srcdpi=300]
+image::https://habrastorage.org/webt/um/ff/n3/umffn3yakhg2w72zm4xwbos_rki.png[fitrect="170x250mm",srcdpi=300,width=80%]
 endif::[]
 
 == Some notes
@@ -160,9 +168,9 @@ endif::[]
 
 We include such a file in the Asciidoc document like `include i17n-\{lang}.adoc[]`. Now there is no need to use attributes. Just translate `include i17n-en.adoc[]` to `include i17n-ru.adoc[]`.
 
-. When `gettext` updates PO files it uses fuzzy search. If you slightly change the original text you won't lose its translation. It will be just marked as flaky.
+. When `gettext` updates `.po` files it uses fuzzy search. If you slightly change the original text you won't lose its translation. It will be just marked as flaky.
 
-. It's easy to check whether translation file is up-to-date.
+. It's easy to check whether translation file is up-to-date with a Gettext utility `msgfmt`.
 +
 
 ----
@@ -174,8 +182,8 @@ It shows the number of translated strings, the number of strings that need check
 
 == Conclusion
 
-* I began to use simple text markup, when faced the task to create a good deal of professionally formatted documentation. Then, it turned out, generating documentation in simple text format and keeping it up-to-date is quite easy. Quality assurance also proved to be easy. Now, we see, making documentation international is once again efficient.
+* Translation Toolkit and Gettext make the process of documentation internationalization quite efficient.
 
-* Simple text markups are not so simple. To take full advantage of it one needs a certain level of skills. Try to give translator PO files. Will they be ready to make a translation? Or they'll ask you for text in a more traditional format like Microsoft Word.
+* Simple text markups are not so simple. To take full advantage of it one needs a certain level of skills. Try to give translator `.po` files. Will they be ready to make a translation? Or they'll ask you for text in a more traditional format like Microsoft Word.
 
-* Quality control: 50 translated messages, 0 errors, 0 warnings and 0 suggestions in 1 file.
+* Quality control: 58 translated messages, 0 errors, 0 warnings and 0 suggestions in 1 file.
