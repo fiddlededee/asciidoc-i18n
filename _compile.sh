@@ -20,7 +20,7 @@ po2txt -t i18n-adoc.adoc i18n-adoc-ru.po i18n-adoc-ru.adoc
 ../_output_files.sh i18n-adoc-ru.adoc
 
 mkdir out
-cp {*.odt,*.pdf,*.docx,*.md,*.html,*.png,*.jpeg,*.jpg} out
+cp {*.odt,*.pdf,*.docx,*.md,*.html,*.png,*.jpg} out
 
 if [ -s log.txt ]; then
   exit 1
