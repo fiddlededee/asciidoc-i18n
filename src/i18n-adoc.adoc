@@ -184,6 +184,6 @@ It shows the number of translated strings, the number of strings that need check
 
 * Translation Toolkit and Gettext make the process of documentation internationalization quite efficient.
 
-* Simple text markups are not so simple. To take full advantage of it, one needs a certain level of skills. Try to give a translator the `.po` file. Will they be ready to make a translation? Or they'll ask you for text in a more traditional format like Microsoft Word.
+* Simple text markups are not so simple. To take full advantage of it, one needs a certain level of skills. Try to give a translator the `.po` file. How many of them will be ready to make a translation? Or they'll ask you for text in a more traditional format like Microsoft Word.
 
 * Quality control: 58 translated messages, 0 errors, 0 warnings and 0 suggestions in 1 file.
